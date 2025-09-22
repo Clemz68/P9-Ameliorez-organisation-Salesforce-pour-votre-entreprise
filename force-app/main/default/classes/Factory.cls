@@ -9,7 +9,7 @@ public with sharing class Factory {
         acc.CurrencyIsoCode = 'EUR';
         acc.Industry = 'Agriculture';
         insert acc;
-
+ 
         Opportunity opp = new Opportunity();
         opp.Name = 'Factory OppA';
         opp.StageName = 'Prospecting';
