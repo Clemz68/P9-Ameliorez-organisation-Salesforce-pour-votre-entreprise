@@ -53,6 +53,10 @@ jobs:
           echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
 
+      - name: 'test Plugin'
+        run: |
+          sf plugins list
+
       - name: 'Déployer les métadonnées sur la branch main'
         if: github.ref == 'refs/heads/main'
         run:   force source deploy -x package/package.xml -l RunLocalTests -u vscodeOrg
