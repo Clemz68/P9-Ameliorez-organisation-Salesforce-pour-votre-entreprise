@@ -39,7 +39,7 @@ jobs:
           sfdx auth:jwt:grant \
           --client-id ${{ secrets.SF_CONSUMER_KEY }} \
           --jwt-key-file server.key \
-          --username ${{ secrets.SF_USERNAME }} 
+          --username ${{ secrets.SF_USERNAME }} \
           --set-default-dev-hub \
           --alias vscodeOrg
 
