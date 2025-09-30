@@ -1,7 +1,7 @@
 // @isTest
 public with sharing class UpdateAccountsTest {
 
-     public UpdateAccount() {
+     public UpdateAccountTest() {
 
     }
     /*
