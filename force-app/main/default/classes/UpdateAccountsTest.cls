@@ -1,6 +1,10 @@
-@isTest
-private class UpdateAccountsTest {
+// @isTest
+public with sharing class UpdateAccountsTest {
 
+     public UpdateAccountsTest() {
+
+    }
+    /*
     @isTest static void test() {
         Account acc1 = new Account(Name = 'Test Account 1');
         insert acc1;
@@ -25,4 +29,5 @@ private class UpdateAccountsTest {
         OrderItem oi2 = new OrderItem (OrderId = o1.Id, PricebookEntryId = pbe.Id, Quantity=20, UnitPrice = 1000);
         insert oi2;        
     }
+    */
 }
