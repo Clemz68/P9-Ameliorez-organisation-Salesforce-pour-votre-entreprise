@@ -47,8 +47,8 @@ jobs:
          SERVER_KEY_PASSWORD: ${{ secrets.SERVER_KEY_PASSWORD }}
       - name: 'test Plugin'
         run: |
-          sgd --version 
-          npx sgd --version
+          sf plugins
+          sf sgd --version
 
       - name: 'Generate metadata delta pull request'  # Utilisez le plug-in sfdx-git-delta pour effectuer un delta, generer le package xml dans un fichier temporaire ex : .temp
         run: |
