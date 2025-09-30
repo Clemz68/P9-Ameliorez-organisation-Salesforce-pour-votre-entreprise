@@ -1,5 +1,5 @@
 // @isTest
-private class UpdateAccountsTest {
+public with sharing class UpdateAccountsTest {
 
      public UpdateAccount() {
 
