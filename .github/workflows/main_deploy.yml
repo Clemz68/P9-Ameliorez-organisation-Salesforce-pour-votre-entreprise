@@ -46,16 +46,15 @@ jobs:
 
         env:
          SERVER_KEY_PASSWORD: ${{ secrets.SERVER_KEY_PASSWORD }}
+      - name: 'test Plugin'
+        run: |
+          sf plugins list
 
       - name: 'Generate metadata delta pull request'  # Utilisez le plug-in sfdx-git-delta pour effectuer un delta, generer le package xml dans un fichier temporaire ex : .temp
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output.
           echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
-
-      - name: 'test Plugin'
-        run: |
-          sf plugins list
 
       - name: 'Déployer les métadonnées sur la branch main'
         if: github.ref == 'refs/heads/main'
