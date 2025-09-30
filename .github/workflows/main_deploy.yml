@@ -36,7 +36,13 @@ jobs:
       - name: 'Authentification Salesforce' # Vous devez avoir une connexion avec Salesforce pour pouvoir deployer le code à la dernière étape.
         run: |
           echo "${SERVER_KEY_PASSWORD}" > server.key
-          sfdx auth:jwt:grant --clientid ${{ secrets.SF_CONSUMER_KEY }} --jwtkeyfile server.key --username ${{ secrets.SF_USERNAME }} --setdefaultdevhubusername --setalias vscodeOrg
+          sfdx auth:jwt:grant \
+          --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+          --jwt-key-file server.key \
+          --username ${{ secrets.SF_USERNAME }} 
+          --set-default-dev-hub \
+          --alias vscodeOrg
+
         env:
          SERVER_KEY_PASSWORD: ${{ secrets.SERVER_KEY_PASSWORD }}
 
