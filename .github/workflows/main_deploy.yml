@@ -57,4 +57,4 @@ jobs:
 
       - name: 'Déployer les métadonnées sur la branch main'
         if: github.ref == 'refs/heads/main'
-        run:   force source deploy -x package/package.xml -l RunLocalTests -u vscodeOrg
+        run:   sfdx force:source:deploy -x package/package.xml -l RunLocalTests -u vscodeOrg
