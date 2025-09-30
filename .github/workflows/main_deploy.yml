@@ -57,4 +57,4 @@ jobs:
 
       - name: 'Déployer les métadonnées sur la branch main'
         if: github.ref == 'refs/heads/main'
-        run:   sfdx project deploy start --manifest package/package.xml --test-level RunSpecifiedTests --tests OrderControllerTest, OrderSelectorTest, OrderTriggerTest --target-org vscodeOrg
+        run:   sfdx project deploy start --manifest package/package.xml --test-level RunSpecifiedTests --tests OrderControllerTest --tests OrderSelectorTest --tests OrderTriggerTest --target-org vscodeOrg
