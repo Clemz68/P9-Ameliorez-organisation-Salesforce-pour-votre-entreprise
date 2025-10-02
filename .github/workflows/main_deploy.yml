@@ -63,7 +63,7 @@ jobs:
       # cat affiche le contenu du xml (cat pour concatenate)
 
       # Étape 6 : Déployer les métadonnées et lancer les tests locaux des classes Apex
-      - name: 'Déployer les métadonnées sur la branche main'
+      - name: 'Tester et Déployer les métadonnées sur la branche main'
         if: github.ref == 'refs/heads/main'  # Condition : exécuter seulement sur main
         run: sfdx project deploy start --manifest package/package.xml --test-level RunLocalTests --target-org vscodeOrg
       # manifest => indique le fichier à dépoloyer; RunLocalTests => run les test en Apex de mon org; 
