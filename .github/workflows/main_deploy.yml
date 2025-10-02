@@ -1,10 +1,9 @@
-name: Deploy and Validate Metadata
+name: Déploy et valide les métadonnées 
 
 on:
   pull_request:
     branches:
       - main
-
   push:
     branches:
       - main
@@ -19,42 +18,52 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v4
+      # Étape 1 : Cloner le dépôt 
+      - uses: actions/checkout@v4  # git clone suivi de git checkout 
         with:
-          fetch-depth: 0 
+          fetch-depth: 0  # Récupère tout l’historique Git pour permettre les calculs de delta
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      # Étape 2 : Configurer Node.js
+      - name: Utiliser Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install SFDX CLI and sfdx-git-delta plugin # Ce package va vous permettre de faire un delta entre votre branche et la branch ciblé. Voici la documentation : https://github.com/scolladon/sfdx-git-delta
+      # Étape 3 : Installer SFDX CLI et le plugin sfdx-git-delta
+      - name: Installer SFDX CLI et le plugin sfdx-git-delta
         run: |
           npm install -g @salesforce/cli@latest
-          echo "y" | sfdx plugins:install sfdx-git-delta
-
-      - name: 'Authentification Salesforce' # Vous devez avoir une connexion avec Salesforce pour pouvoir deployer le code à la dernière étape.
+          echo "y" | sfdx plugins:install sfdx-git-delta 
+      #Salesforce Cli installé en global (-g) 
+      #Attention sgd est installé en tant que plugins de sf !
+      
+      # Étape 4 : Authentification Salesforce
+      - name: 'Authentification Salesforce'
         run: |
           echo "${SERVER_KEY_PASSWORD}" > server.key
           sf auth jwt grant \
-          --client-id ${{ secrets.SF_CONSUMER_KEY }} \
-          --jwt-key-file server.key \
-          --username ${{ secrets.SF_USERNAME }} \
-          --set-default-dev-hub \
-          --alias vscodeOrg
+            --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+            --jwt-key-file server.key \
+            --username ${{ secrets.SF_USERNAME }} \
+            --set-default-dev-hub \
+            --alias vscodeOrg
+        # echo "${SERVER_KEY_PASSWORD}" > server.key => sert à copier coller la clé dans un ficher .key
+        # La consumer key de l'app connectée sfdc et l'user name sont requis, l'alias de l'org est requise egalement 
 
         env:
-         SERVER_KEY_PASSWORD: ${{ secrets.SERVER_KEY_PASSWORD }}
-      - name: 'test Plugin'
-        run: |
-          sf plugins
-  
-      - name: 'Generate metadata delta pull request'  # Utilisez le plug-in sfdx-git-delta pour effectuer un delta, generer le package xml dans un fichier temporaire ex : .temp
+          SERVER_KEY_PASSWORD: ${{ secrets.SERVER_KEY_PASSWORD }}  # Mot de passe clé stocké en secret dans gitHub
+
+      # Étape 5 : Générer le delta des métadonnées pour la Pull Request
+      - name: 'Générer le delta des métadonnées entre ce commit et le précédent'
         run: |
           sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output-dir .
           echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
+      # HEAD => Commit actuel; HEAD~1 => Commit précédent; output-dir. => Répertoire courrant
+      # cat affiche le contenu du xml (cat pour concatenate)
 
+      # Étape 6 : Déployer les métadonnées et lancer les tests locaux des classes Apex
       - name: 'Déployer les métadonnées sur la branch main'
-        if: github.ref == 'refs/heads/main'
-        run:   sfdx project deploy start --manifest package/package.xml --test-level RunLocalTests --target-org vscodeOrg
+        if: github.ref == 'refs/heads/main'  # Condition : exécuter seulement sur main
+        run: sfdx project deploy start --manifest package/package.xml --test-level RunLocalTests --target-org vscodeOrg
+      # manifest => indique le fichier à dépoloyer; RunLocalTests => run les test en Apex de mon org; 
