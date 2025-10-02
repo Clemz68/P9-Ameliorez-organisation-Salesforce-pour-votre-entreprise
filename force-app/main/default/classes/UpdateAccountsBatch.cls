@@ -1,3 +1,9 @@
+/** 
+     * @author Clem
+     * @date 2025
+     */
+
+
 global with sharing class UpdateAccountsBatch implements Database.Batchable<sObject>, Schedulable{
     
  /**

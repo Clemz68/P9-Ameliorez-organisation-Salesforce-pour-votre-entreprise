@@ -1,5 +1,15 @@
+/** 
+     * @author Clem
+     * @date 2025
+     */
+
 @isTest
 private class OrdersControllerTest {
+
+     /** 
+     * @name makeData
+     * @description Annoté avec TestSetup pour génération de data en appelant la classe Factory
+    */
 
      @TestSetup
     static void makeData(){
@@ -7,6 +17,11 @@ private class OrdersControllerTest {
     Factory.FactoryData();
 
     }
+
+     /** 
+     * @name testPositiveController
+     * @description Test positif de la classe OrderController
+    */
 
     @isTest
     static void testPositiveController() {

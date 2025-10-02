@@ -1,5 +1,15 @@
+    /** 
+     * @author Clemz68
+     * @date 2025
+     */
+
 public with sharing class Factory {
-// It worked?? TestCommit 1234545fef timz to shineeeeezzzeeee
+    /** 
+     * @name FactoryData
+     * @description Classe pour générer les data de l'environnement de test
+     * Objets insérés: Account, Opportunity, Product2, PricebookEntry, Order, OrderItems
+    */
+    
     public static void FactoryData() {
 
         Account acc = new Account();
