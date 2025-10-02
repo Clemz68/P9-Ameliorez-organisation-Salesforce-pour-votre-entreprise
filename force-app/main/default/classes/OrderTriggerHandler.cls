@@ -1,66 +1,77 @@
 /** 
-     * @author Clem
-     * @date 2025
-     */
+* @author Clem
+* @date 2025
+*/
 
 public with sharing class OrderTriggerHandler {
     
-    public void afterTriggerUpdateCA (List<Order> triggerNew, Map<Id, Order> triggerOldMap){
+    /** 
+    * @name afterTriggerUpdateCA
+    * @description Logique métier du trigger after update sur Order. Udpate du chiffre d'affaire de l'account en fonction du total amount de l'Order
+    * @param List triggerNew, Map triggerOldMap
+    * @return AggregateResult (roll up/summary) somme des commandes sous status 'activé' liées à l'account Id
+    */
 
-         Map<Id, Decimal> totalByAccount = new Map<Id, Decimal>();
+    public void afterTriggerUpdateCA (List<Order> triggerNew, Map<Id, Order> triggerOldMap) {
+
+        Map<Id, Decimal> totalByAccount = new Map<Id, Decimal>();
 
         for (Order newOrd : triggerNew) {
-        Order oldOrd = triggerOldMap.get(newOrd.Id);
+            Order oldOrd = triggerOldMap.get(newOrd.Id);
 
-        if (newOrd.StatusCode == 'Activated' && oldOrd.StatusCode != 'Activated' ) {
-            
-            Decimal total = (newOrd.TotalAmount != null ? newOrd.TotalAmount : 0);
+            if (newOrd.StatusCode == 'Activated' && oldOrd.StatusCode != 'Activated') {
 
-            if (totalByAccount.containsKey(newOrd.AccountId)) {
+                Decimal total = (newOrd.TotalAmount != null ? newOrd.TotalAmount : 0);
 
-                totalByAccount.put(newOrd.AccountId, totalByAccount.get(newOrd.AccountId) + total);
+                if (totalByAccount.containsKey(newOrd.AccountId)) {
 
-            } else {
+                    totalByAccount.put(newOrd.AccountId, totalByAccount.get(newOrd.AccountId) + total);
 
-            totalByAccount.put(newOrd.AccountId, total);
-            
+                } else {
+
+                    totalByAccount.put(newOrd.AccountId, total);
+
+                }
             }
         }
-    }
 
-    if (totalByAccount.isEmpty()) return;
+        if (totalByAccount.isEmpty()) return;
 
-    List<Account> accsToUpdate = [ SELECT Id, Chiffre_d_affaire__c FROM Account WHERE Id IN :totalByAccount.keySet()
-    ];
+        List<Account> accsToUpdate = [SELECT Id, Chiffre_d_affaire__c FROM Account WHERE Id IN :totalByAccount.keySet()];
 
-    for (Account acc : accsToUpdate) {
-        acc.Chiffre_d_affaire__c = (acc.Chiffre_d_affaire__c != null ? acc.Chiffre_d_affaire__c : 0) +
-                                   totalByAccount.get(acc.Id);
-    }
-
-    update accsToUpdate;
-}
-
-
-     public void beforeTriggerUpdateNetAmount (List<Order> triggerNew, Map<Id, Order> triggerOldMap){
-
-
-    List <Order> ordTriggerUpdate = new List <Order>();
-
-	for (Order newOrd : triggerNew) {
-        Order oldOrd = triggerOldMap.get(newOrd.Id);
-
- 	 if (newOrd.ShipmentCost__c != null && newOrd.TotalAmount != oldOrd.TotalAmount ||
-	  newOrd.ShipmentCost__c != null && newOrd.ShipmentCost__c != oldOrd.ShipmentCost__c) {
-           
-		ordTriggerUpdate.add(newOrd);
-
+        for (Account acc : accsToUpdate) {
+            acc.Chiffre_d_affaire__c = (acc.Chiffre_d_affaire__c != null ? acc.Chiffre_d_affaire__c : 0) + totalByAccount.get(acc.Id);
         }
-	}
 
-	for (Order ord : ordTriggerUpdate) {
+        update accsToUpdate;
 
-		ord.NetAmount__c = ord.TotalAmount - ord.ShipmentCost__c;
-	}
-}
+    }
+
+    /** 
+    * @name beforeTriggerUpdateNetAmount
+    * @description Logique métier du trigger before update sur Order. Udpate du NetAmount de l'Order en fonction du TotalAmount et du ShipmentCost
+    * @param List triggerNew, Map triggerOldMap
+    * @return AggregateResult (roll up/summary) somme des commandes sous status 'activé' liées à l'account Id
+    */
+    
+    public void beforeTriggerUpdateNetAmount (List<Order> triggerNew, Map<Id, Order> triggerOldMap) {
+
+        List<Order> ordTriggerUpdate = new List<Order>();
+
+        for (Order newOrd : triggerNew) {
+            Order oldOrd = triggerOldMap.get(newOrd.Id);
+
+            if (newOrd.ShipmentCost__c != null && newOrd.TotalAmount != oldOrd.TotalAmount ||
+                newOrd.ShipmentCost__c != null && newOrd.ShipmentCost__c != oldOrd.ShipmentCost__c) {
+
+                ordTriggerUpdate.add(newOrd);
+
+            }
+        }
+
+        for (Order ord : ordTriggerUpdate) {
+
+            ord.NetAmount__c = ord.TotalAmount - ord.ShipmentCost__c;
+        }
+    }
 }

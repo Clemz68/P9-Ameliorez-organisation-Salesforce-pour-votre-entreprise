@@ -1,55 +1,70 @@
 /** 
-     * @author Clem
-     * @date 2025
-     */
+* @author Clem
+* @date 2025
+*/
 
 @isTest
-private class OrderTriggerTest{
-//testing
+private class OrderTriggerTest {
+
+    /** 
+    * @name makeData
+    * @description Annoté avec TestSetup pour génération de data en appelant la classe Factory
+    */
+
     @TestSetup
-    static void makeData(){
-    
-    Factory.FactoryData();
+    static void makeData() {
+
+        Factory.FactoryData();
 
     }
 
-    @IsTest
-    static void TestPositiveAfterTrigger(){
+    /** 
+    * @name TestPositiveAfterTrigger
+    * @description Test positif de la classe OrderTriggerHandler
+    */
 
-    List <Order> orders = [SELECT Id, TotalAmount, AccountId, StatusCode, Status FROM Order];
+    @IsTest
+    static void TestPositiveAfterTrigger() {
+
+        List<Order> orders = [SELECT Id, TotalAmount, AccountId, StatusCode, Status FROM Order];
 
         Test.startTest();
 
-            for (Order o: orders){
-                o.StatusCode = 'Activated';
-                o.Status = 'Livraison_creee';
-            }
-            update orders;
+        for (Order o : orders) {
+            o.StatusCode = 'Activated';
+            o.Status = 'Livraison_creee';
+        }
+        update orders;
 
         Test.stopTest();
 
-        Account acc = [ SELECT Id, Chiffre_d_affaire__c  FROM Account LIMIT 1];
+        Account acc = [SELECT Id, Chiffre_d_affaire__c FROM Account LIMIT 1];
         System.assertEquals(310, acc.Chiffre_d_affaire__c, 'TestPositiveTrigger is failed');
     }
+
+    /** 
+    * @name TestPositiveBeforeTrigger
+    * @description Test positif de la classe OrderTriggerHandler
+    */
 
     @IsTest
     static void TestPositiveBeforeTrigger() {
 
         Test.startTest();
-        
-        List <Order> ordsUpdate = new List <Order> ();
-        List <Order> ords = [SELECT Id, TotalAmount, NetAmount__c, ShipmentCost__c, AccountId FROM Order];
 
-        for (Order o: ords){
-            o.shipmentCost__c = 0.5;
+        List<Order> ordsUpdate = new List<Order>();
+        List<Order> ords = [SELECT Id, TotalAmount, NetAmount__c, ShipmentCost__c, AccountId FROM Order];
+
+        for (Order o : ords) {
+            o.ShipmentCost__c = 0.5;
             ordsUpdate.add(o);
         }
 
         update ordsUpdate;
 
         Test.stopTest();
-        // relire après le commit de ma transaction test
-        List<Order> ordsAfter = [ SELECT NetAmount__c FROM Order];
+
+        List<Order> ordsAfter = [SELECT NetAmount__c FROM Order];
 
         System.assertEquals(0.5, ordsAfter[1].NetAmount__c);
         System.assertEquals(0.5, ordsAfter[15].NetAmount__c);

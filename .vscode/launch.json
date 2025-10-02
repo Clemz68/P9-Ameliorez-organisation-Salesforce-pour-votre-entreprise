@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Apex Debugger",
+            "type": "apex",
+            "request": "launch",
+            "userIdFilter": [],
+            "requestTypeFilter": [],
+            "entryPointFilter": "",
+            "salesforceProject": "c:\\Users\\Clément\\Documents\\FormationDVPSFDC\\Projet 9 Améliorer une Org SFDC\\P9-Ameliorez-organisation-Salesforce-pour-votre-entreprise"
+        }
+    ]
+}

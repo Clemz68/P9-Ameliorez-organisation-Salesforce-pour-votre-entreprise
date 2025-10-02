@@ -1,17 +1,16 @@
-    /** 
-     * @author Clemz68
-     * @date 2025
-     */
-
+/** 
+ * @author Clem
+ * @date 2025
+ */
 public with sharing class Factory {
+    
     /** 
      * @name FactoryData
-     * @description Classe pour générer les data de l'environnement de test
+     * @description Classe pour générer les data de l'environnement de test 
      * Objets insérés: Account, Opportunity, Product2, PricebookEntry, Order, OrderItems
-    */
-    
+     */
     public static void FactoryData() {
-
+        
         Account acc = new Account();
         acc.Name = 'Factory Account 1';
         acc.Phone = '01020302';
@@ -19,19 +18,22 @@ public with sharing class Factory {
         acc.CurrencyIsoCode = 'EUR';
         acc.Industry = 'Agriculture';
         insert acc;
- 
+        
         Opportunity opp = new Opportunity();
         opp.Name = 'Factory OppA';
         opp.StageName = 'Prospecting';
         opp.CloseDate = System.today().addDays(30);
         opp.AccountId = acc.Id;
         insert opp;
-
+        
         Id standardPricebookId = Test.getStandardPricebookId();
         
-        Product2 testProduct = new Product2(Name = 'Test Product for Factory', IsActive = true);
+        Product2 testProduct = new Product2(
+            Name = 'Test Product for Factory',
+            IsActive = true
+        );
         insert testProduct;
-
+        
         PricebookEntry testPricebookEntry = new PricebookEntry(
             Pricebook2Id = standardPricebookId,
             Product2Id = testProduct.Id,
@@ -39,8 +41,8 @@ public with sharing class Factory {
             IsActive = true
         );
         insert testPricebookEntry;
-
-        List <Order> orders = new List <Order>();
+        
+        List<Order> orders = new List<Order>();
         for (Integer i = 0; i < 300; i++) {
             Order ord = new Order();
             ord.AccountId = acc.Id;
@@ -52,10 +54,10 @@ public with sharing class Factory {
             ord.CurrencyIsoCode = 'EUR';
             orders.add(ord);
         }
-        insert orders; 
-
-        List <OrderItem> orderItems = new List <OrderItem>();
-        for (Order o: orders){
+        insert orders;
+        
+        List<OrderItem> orderItems = new List<OrderItem>();
+        for (Order o : orders) {
             OrderItem testOrdIt = new OrderItem();
             testOrdIt.UnitPrice = 1;
             testOrdIt.Quantity = 1;
