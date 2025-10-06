@@ -1,4 +1,4 @@
-ame: Déploiement et validation des métadonnées 
+name: Déploiement et validation des métadonnées 
 
 on:
   pull_request:

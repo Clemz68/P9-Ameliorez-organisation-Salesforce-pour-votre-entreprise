@@ -39,5 +39,5 @@ export default class BoxSumAmountOrders extends LightningElement {
             );
         }
         this.isLoading = false;
-    }
+    } 
 }

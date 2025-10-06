@@ -11,7 +11,7 @@ private class OrdersControllerTest {
      */
     @TestSetup
     static void makeData() {
-        Factory.FactoryData();
+        Factory.FactoryDataUniqueAccount();
     }
     
     /** 
