@@ -35,7 +35,7 @@ public with sharing class OrdersSelector {
             AND AccountId IN :accountIds
           GROUP BY AccountId
       ];
-     System.debug('résultats du selector' + listGroupedResults);
+
       return listGroupedResults;
   }
 }

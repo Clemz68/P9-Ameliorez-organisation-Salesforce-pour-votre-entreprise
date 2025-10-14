@@ -21,7 +21,7 @@ public with sharing class OrderTriggerHandler {
 
             if (newOrd.StatusCode == 'Activated' && oldOrd.StatusCode != 'Activated') {
 
-                Decimal total = (newOrd.TotalAmount != null ? newOrd.TotalAmount : 0);
+                Decimal total = (newOrd.NetAmount__c != null ? newOrd.NetAmount__c : 0);
 
                 if (totalByAccount.containsKey(newOrd.AccountId)) {
 

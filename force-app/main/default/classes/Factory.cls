@@ -122,6 +122,7 @@ public with sharing class Factory {
                 ord.AccountId = opp.AccountId;
                 ord.OpportunityId = opp.Id;
                 ord.Client_Type__c = 'Particulier';
+                ord.NetAmount__c = 0;
                 ord.Status = 'Draft';
                 ord.EffectiveDate = System.today();
                 ord.Pricebook2Id = standardPricebookId;
