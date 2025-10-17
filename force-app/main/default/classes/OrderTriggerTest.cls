@@ -26,20 +26,20 @@ private class OrderTriggerTest {
     @IsTest
     static void TestPositiveAfterTrigger() {
 
-        List<Order> orders = [SELECT Id, TotalAmount, AccountId, StatusCode, Status FROM Order];
+        List<Order> orders = [SELECT Id, TotalAmount, AccountId, Status FROM Order];
 
         Test.startTest();
 
         for (Order o : orders) {
-            o.StatusCode = 'Activated';
-            o.Status = 'Livraison_creee';
+            o.ShipmentCost__c = 0.5;
+            o.Status = 'ActivatedP9';
         }
         update orders;
 
         Test.stopTest();
 
         Account acc = [SELECT Id, Chiffre_d_affaire__c FROM Account LIMIT 1];
-        System.assertEquals(310, acc.Chiffre_d_affaire__c, 'TestPositiveTrigger is failed');
+        System.assertEquals(150, acc.Chiffre_d_affaire__c, 'TestPositiveTrigger is failed');
     }
 
     /** 

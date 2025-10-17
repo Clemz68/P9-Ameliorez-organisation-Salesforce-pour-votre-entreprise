@@ -1,7 +1,8 @@
 /** 
 * @author Clem
 * @date 2025
-* @description Update des accounts => calcul du CA suite à import de masse de données (comme des orders déja validées par exemple)
+* @description Update des accounts => recalcul du chiffre d'affaire
+*                
 */
 
 global with sharing class UpdateAccountsBatch implements Database.Batchable<sObject> {
@@ -15,12 +16,10 @@ global with sharing class UpdateAccountsBatch implements Database.Batchable<sObj
 
      
     global Database.QueryLocator start(Database.BatchableContext info){ 
-        String query = 'SELECT Id, Chiffre_d_affaire__c FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE StatusCode = \'Activated\')';
-        System.debug('Accounts récupérés' + query);
+        String query = 'SELECT Id, Chiffre_d_affaire__c FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = \'ActivatedP9\')';
         return Database.getQueryLocator(query);
-        // 'SELECT Id, FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE StatusCode = Activated)'
     }
-    /**
+    /** 
      * Méthode execute - Traite chaque lot d'enregistrements
      * Appelle une méthode pour mettre à jour le CA des accounts
      * @param info, info du batch
@@ -38,7 +37,6 @@ global with sharing class UpdateAccountsBatch implements Database.Batchable<sObj
             Decimal total = (Decimal) ar.get('total'); 
             Id accId = (Id) ar.get('AccountId');
             totalById.put(accId, total);
-            System.debug('Account Id : ' + accId + ' Total : ' + total);
         }
 
         List <Account> accToUpdate = new List <Account>();
@@ -56,7 +54,12 @@ global with sharing class UpdateAccountsBatch implements Database.Batchable<sObj
         if (!accToUpdate.isEmpty()){
 
             update accToUpdate;
+            
         }
+        System.debug('CPU lot: ' + Limits.getCpuTime() + ' ms');
+        System.debug('Heap lot: ' + Limits.getHeapSize() + ' bytes');
+        System.debug('SOQL lot: ' + Limits.getQueries());
+        System.debug('DML lot: ' + Limits.getDmlStatements());
     } 
     /**
      * Méthode finish - S'exécute après le traitement de tous les lots
@@ -65,7 +68,7 @@ global with sharing class UpdateAccountsBatch implements Database.Batchable<sObj
      */
      
     global void finish(Database.BatchableContext info){     
-        
+
     }     
     
 }

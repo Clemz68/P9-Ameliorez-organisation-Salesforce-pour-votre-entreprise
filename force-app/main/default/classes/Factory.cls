@@ -14,7 +14,7 @@ public with sharing class Factory {
         Account acc = new Account();
         acc.Name = 'Test Controller Selector';
         acc.Phone = '01020302';
-        acc.Chiffre_d_affaire__c = 10;
+        acc.Chiffre_d_affaire__c = 0;
         acc.CurrencyIsoCode = 'EUR';
         acc.Industry = 'Agriculture';
         insert acc;
