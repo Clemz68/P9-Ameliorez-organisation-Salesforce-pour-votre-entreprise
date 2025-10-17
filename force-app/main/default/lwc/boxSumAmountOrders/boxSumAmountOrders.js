@@ -14,8 +14,8 @@ export default class BoxSumAmountOrders extends LightningElement {
     @api recordId;
 
 /**  
- * @description Décorateur @Wire de la méthode Apex pour récupérer les données de manière réactif (total amount des commandes actives pour l'Account).
- *             
+ * @description Décorateur @Wire de la méthode Apex pour récupérer les données de manière réactif 
+ *              (total amount des commandes actives pour l'Account).
  * @param {Function} getSumOrdersByAccount Méthode Apex utilisée comme adaptateur @wire.
  * @param {Object} config Objet de configuration contenant les paramètres passés à Apex.
  * @param {String} config.accountId Id de l’Account utilisé pour filtrer les données.
@@ -32,7 +32,7 @@ export default class BoxSumAmountOrders extends LightningElement {
         } else if (error) {
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Error while fetching Data',
+                    title: 'Erreur lors de la récupération des données',
                     message: error.body?.message || JSON.stringify(error),
                     variant: 'error'
                 })

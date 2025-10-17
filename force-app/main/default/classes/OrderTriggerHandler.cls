@@ -7,9 +7,9 @@ public with sharing class OrderTriggerHandler {
     
     /** 
     * @name afterTriggerUpdateCA
-    * @description Logique métier du trigger after update sur Order. Udpate du chiffre d'affaire de l'account en fonction du total amount de l'Order
+    * @description Logique métier du trigger after update sur Order. Udpate du chiffre d'affaire de l'account 
+    * en fonction du total amount de l'Order lors de l'activation de la commande
     * @param List triggerNew, Map triggerOldMap
-    * @return AggregateResult (roll up/summary) somme des commandes sous status 'activé' liées à l'account Id
     */
 
     public void afterTriggerUpdateCA (List<Order> triggerNew, Map<Id, Order> triggerOldMap) {
@@ -19,7 +19,7 @@ public with sharing class OrderTriggerHandler {
         for (Order newOrd : triggerNew) {
             Order oldOrd = triggerOldMap.get(newOrd.Id);
 
-            if (newOrd.StatusCode == 'Activated' && oldOrd.StatusCode != 'Activated') {
+            if (newOrd.Status == 'ActivatedP9' && oldOrd.Status != 'ActivatedP9') {
 
                 Decimal total = (newOrd.NetAmount__c != null ? newOrd.NetAmount__c : 0);
 
@@ -51,7 +51,6 @@ public with sharing class OrderTriggerHandler {
     * @name beforeTriggerUpdateNetAmount
     * @description Logique métier du trigger before update sur Order. Udpate du NetAmount de l'Order en fonction du TotalAmount et du ShipmentCost
     * @param List triggerNew, Map triggerOldMap
-    * @return AggregateResult (roll up/summary) somme des commandes sous status 'activé' liées à l'account Id
     */
     
     public void beforeTriggerUpdateNetAmount (List<Order> triggerNew, Map<Id, Order> triggerOldMap) {

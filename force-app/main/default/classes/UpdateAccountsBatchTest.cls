@@ -21,8 +21,8 @@ public with sharing class UpdateAccountsBatchTest {
 
         // activation des orders, le trigger order est déclenché CA de l'account = 3
         for (Order o : orders) {
-            o.StatusCode = 'Activated';
-            o.Status = 'Livraison_creee';
+            o.ShipmentCost__c = 5;
+            o.Status = 'ActivatedP9';
         }
         update orders;
 
@@ -45,10 +45,10 @@ public with sharing class UpdateAccountsBatchTest {
             
         List <Account> accs = [SELECT Id, Chiffre_d_affaire__c FROM Account];
         
-        System.assertEquals(30, accs[0].Chiffre_d_affaire__c);
-        System.assertEquals(30, accs[2].Chiffre_d_affaire__c);
-        System.assertEquals(30, accs[5].Chiffre_d_affaire__c);
-        System.assertEquals(30, accs[7].Chiffre_d_affaire__c);
+        System.assertEquals(15, accs[0].Chiffre_d_affaire__c);
+        System.assertEquals(15, accs[2].Chiffre_d_affaire__c);
+        System.assertEquals(15, accs[5].Chiffre_d_affaire__c);
+        System.assertEquals(15, accs[7].Chiffre_d_affaire__c);
         
     }
 }

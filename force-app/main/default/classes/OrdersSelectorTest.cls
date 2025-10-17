@@ -22,7 +22,7 @@ private class OrdersSelectorTest {
     static void testPositiveSelector() {
         
         Account acc = [SELECT Id FROM Account LIMIT 1];
-        List<Order> orders = [SELECT Id, NetAmount__c, AccountId, StatusCode, Status FROM Order];
+        List<Order> orders = [SELECT Id, AccountId, StatusCode, Status FROM Order];
         Id accountId = acc.Id;
         List <Id> accountIds = new List <Id>();
         accountIds.add(accountId);
@@ -30,8 +30,8 @@ private class OrdersSelectorTest {
         Test.startTest(); 
 
         for (Order o : orders) {
-            o.StatusCode = 'Activated';
-            o.Status = 'Livraison_creee';
+            o.ShipmentCost__c = 0.5;
+            o.Status = 'ActivatedP9';
         }
         update orders;
 
@@ -42,7 +42,7 @@ private class OrdersSelectorTest {
 
         Decimal sum = (Decimal) grpResults.get('total'); 
         Decimal sums = (Decimal) listGrpResult[0].get('total');
-        System.assertEquals(300, sum);
-        System.assertEquals(300, sums);
+        System.assertEquals(150, sum);
+        System.assertEquals(150, sums);
     }
 }

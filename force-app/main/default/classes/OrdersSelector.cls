@@ -10,12 +10,11 @@ public with sharing class OrdersSelector {
    public static AggregateResult getSumOrdersByAccountSelector(Id accountId) {
   
    AggregateResult groupedResults = [
-      SELECT SUM(TotalAmount) total 
+      SELECT SUM(NetAmount__c) total 
       FROM Order 
-      WHERE Status = 'livraison_creee' 
+      WHERE Status = 'ActivatedP9' 
         AND accountId = :accountId
    ];
-  
   return groupedResults;
   }
 
@@ -29,13 +28,12 @@ public with sharing class OrdersSelector {
   public static List<AggregateResult> getSumOrdersByListAccountsSelector(List<Id> accountIds) {
       
       List<AggregateResult> listGroupedResults = [
-          SELECT AccountId, SUM(TotalAmount) total 
+          SELECT AccountId, SUM(NetAmount__c) total 
           FROM Order 
-          WHERE Status = 'livraison_creee' 
+          WHERE Status = 'ActivatedP9' 
             AND AccountId IN :accountIds
           GROUP BY AccountId
       ];
-
       return listGroupedResults;
   }
 }
