@@ -46,7 +46,7 @@ jobs:
             --jwt-key-file server.key \
             --username ${{ secrets.SF_USERNAME }} \
             --set-default-dev-hub \
-            --alias vscodeOrg
+            --alias vsCodeOrg
         # echo "${SERVER_KEY_PASSWORD}" > server.key => sert à copier coller la clé dans un ficher .key
         # La consumer key de l'app connectée sfdc et l'user name sont requis, l'alias de l'org est requise egalement 
 
