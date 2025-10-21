@@ -56,10 +56,6 @@ global with sharing class UpdateAccountsBatch implements Database.Batchable<sObj
             update accToUpdate;
             
         }
-        System.debug('CPU lot: ' + Limits.getCpuTime() + ' ms');
-        System.debug('Heap lot: ' + Limits.getHeapSize() + ' bytes');
-        System.debug('SOQL lot: ' + Limits.getQueries());
-        System.debug('DML lot: ' + Limits.getDmlStatements());
     } 
     /**
      * Méthode finish - S'exécute après le traitement de tous les lots

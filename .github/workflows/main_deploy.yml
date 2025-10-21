@@ -46,7 +46,7 @@ jobs:
             --jwt-key-file server.key \
             --username ${{ secrets.SF_USERNAME }} \
             --set-default-dev-hub \
-            --alias vscodeOrg
+            --alias vsCodeOrg
         # echo "${SERVER_KEY_PASSWORD}" > server.key => sert à copier coller la clé dans un ficher .key
         # La consumer key de l'app connectée sfdc et l'user name sont requis, l'alias de l'org est requise egalement 
 
@@ -65,5 +65,5 @@ jobs:
       # Étape 6 : Déployer les métadonnées et lancer les tests locaux des classes Apex
       - name: 'Tester et Déployer les métadonnées sur la branche main'
         if: github.ref == 'refs/heads/main'  # Condition : exécuter seulement sur main
-        run: sfdx project deploy start --manifest package/package.xml --test-level RunLocalTests --target-org vscodeOrg
+        run: sfdx project deploy start --manifest package/package.xml --test-level RunLocalTests --target-org vsCodeOrg
       # manifest => indique le fichier à dépoloyer; RunLocalTests => run les test en Apex de mon org; 
