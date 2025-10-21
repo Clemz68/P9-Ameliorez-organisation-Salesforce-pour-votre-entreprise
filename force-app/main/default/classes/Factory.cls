@@ -8,6 +8,7 @@ public with sharing class Factory {
      * @name FactoryData
      * @description Classe pour générer les data de l'environnement de test 
      * Objets insérés: Account, Opportunity, Product2, PricebookEntry, Order, OrderItems
+     * test
      */
     public static void FactoryDataUniqueAccount() {
         
