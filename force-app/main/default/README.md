@@ -14,5 +14,5 @@ This project uses Gitmoji for an easy-to-read and structured Git history.
 | ♻️ `:recycle:` | refactor | Code refactoring without changing functionality |
 | 💄 `:lipstick:` | style | Formatting, indentation, comments |
 | ✅ `:white_check_mark:` | test | Add or update unit tests |
-| 🚀`:rocket:`| ci | CI/CD pipeline, YAMl configuration |
+| 🚀`:rocket:`| ci | CI/CD pipeline |
 | 🔧 `:wrench:` | chore | Maintenance, scripts, configuration |
