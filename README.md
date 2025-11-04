@@ -1,42 +1,46 @@
-# Projet 9: Améliorez une organisation Salesforce pour votre entreprise
+# Salesforce Development Project 5: Opitimize a SFDC Org
 
-## Prérequis
-Avant de commencer, assurez-vous d’avoir :
-- Un compte Salesforce valide avec un environnement sandbox ou de développement.
-- Les autorisations nécessaires pour créer des objets personnalisés et déployer des packages.
-- Git installé sur votre machine pour cloner le projet.
+Originatd from project 9 of the Oppenclassroom Salesforce Developper Certification.  
+ 
+## Context and objectives
 
-## Installation
+## Main features 
 
-### 1. Cloner le dépôt
-Commencez par cloner ce dépôt GitHub sur votre machine locale.
+## Considerations & Improvements
 
-```bash
-git clone https://github.com/[votre-utilisateur]/[votre-repo].git
-cd [votre-repo]
-```
+## Installation & Configuration
 
-### 2. Connexion à votre environnement Salesforce
-En utilisant Salesforce DX, connectez-vous à votre organisation Salesforce. Voir documentation : https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_web_flow.htm
+Run the commands below to test the project in your org:
 
-```bash
-sf org login web --alias my-org [nom-de-votre-org]
-```
+git clone https://github.com/tonprofil/ton-projet.git
+sfdx force:source:push -u DevHub
+sfdx force:apex:test:run
 
-### 3. Déployer le projet sur Salesforce
-Une fois connecté, vous pouvez déployer le projet dans votre environnement Salesforce en exécutant la commande suivante (https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_push_md_to_scratch_org.htm) :
+- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
+- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.
+htm)
+- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
+- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/
+sfdx_cli_reference/cli_reference.htm)
 
-```bash
-sf project deploy start
-```
+## Commit Convention (Gitmoji)
 
-### 4. Vérification des objets
-Après le déploiement, connectez-vous à votre organisation Salesforce et vérifiez que les champs personnalisés pour les **Commandes (Order)** et **Comptes  (Account)** sont créés. Veuillez vérifier également que les classes / triggers et le composant Lightning Web Components ont bien été créés.
+This project uses Gitmoji for an easy-to-read and structured Git history.
 
-## Utilisation
-- Accédez aux objets et champs **Commandes** et **Comptes** dans votre environnement Salesforce, puis assurez-vous que les profils disposent des autorisations appropriées pour effectuer des opérations CRUD.
+| Emoji | Commit type | Description |
+|-------|----------------|-------------|
+| ✨ `:sparkles:` | feat | Nouvelle feature (LWC, Apex, etc.) |
+| 🐛 `:bug:` | bug fix |
+| 📝 `:memo:` | docs | Adding or updating documentation (README, ApexDoc) |
+| ♻️ `:recycle:` | refactor | Code refactoring without changing functionality |
+| 💄 `:lipstick:` | style | Formatting, indentation, comments |
+| ✅ `:white_check_mark:` | test | Add or update unit tests |
+| 🚀 `:construction_worker:`| ci | Deploy, CI/CD pipeline |
+| 🔧 `:wrench:` | chore | Maintenance, scripts, configuration |
 
-## Ressources supplémentaires
-- [Salesforce Developer Documentation](https://developer.salesforce.com/docs)
-- [Guide d'utilisation de Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli)
+## Contact 
 
+Author : Clément Glodas
+📧 [clément.glodas@example.com](mailto:clement.glodas@gmail.com)  
+💼 [LinkedIn](https://www.linkedin.com/in/cl%C3%A9ment-glodas-8aa4a9190/)
+📂 [Portfolio](https://github.com/Clemz68)
