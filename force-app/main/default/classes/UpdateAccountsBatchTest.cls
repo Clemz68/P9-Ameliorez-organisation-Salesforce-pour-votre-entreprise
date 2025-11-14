@@ -6,6 +6,11 @@
 @isTest
 public with sharing class UpdateAccountsBatchTest {
 
+    /** 
+     * @name makeData
+     * @description Annoté avec TestSetup pour génération de data en appelant la classe Factory
+     */
+
     @TestSetup
     static void makeData() {
         
@@ -13,13 +18,19 @@ public with sharing class UpdateAccountsBatchTest {
 
     }
 
+
+    /** 
+     * @name testPositiveUpdateAccountBatch
+     * @description Test des data insérés par makeData en exécutant le batch à tester 
+     * @return void  
+     */
+
     @IsTest
     static void testPositiveUpdateAccountsBatch () {
 
         List<Order> orders = [SELECT Id, TotalAmount, AccountId, StatusCode, Status FROM Order];
         List<OrderItem> orderItems = [SELECT Id, UnitPrice FROM OrderItem];
 
-        // activation des orders, le trigger order est déclenché CA de l'account = 3
         for (Order o : orders) {
             o.ShipmentCost__c = 5;
             o.Status = 'ActivatedP9';
@@ -27,17 +38,14 @@ public with sharing class UpdateAccountsBatchTest {
         update orders;
 
         Test.startTest(); 
-            
-        // mise à jour du prix, trigger non déclenché, le CA reste le même
-        // mise à jour des accounts alors nécessaire pour avoir 30 en CA
+
         for (OrderItem o : orderItems) {
             o.UnitPrice = 10;
         }
         update orderItems;
 
         orders = [SELECT Id, TotalAmount FROM Order WHERE Id IN :orders];
-        System.debug('After update: ' + orders[0].TotalAmount);
-
+        
         UpdateAccountsBatch uab = new UpdateAccountsBatch();
         Id batchId = Database.executeBatch(uab);
                 
